@@ -9,25 +9,53 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
 @RestController
 public class RestAPIController {
 
     @Autowired
     private DeviceService deviceService;
 
-    @GetMapping("/dememetext")
-    public String getText() {
-
-        return "Deneme String";
-    }
-
     @GetMapping("/devices")
-    public List<Device> findAllPaginated(@RequestParam("pageNumber") int pageNumber) {
+    public List<Device> findAllPaginated(@RequestParam("page") Integer page) {
 
-        Page<Device> resultPage = deviceService.getAllDevicesAsPage(pageNumber);
+        System.out.println("Page Number is : "+page.toString());
+
+        Page<Device> resultPage = deviceService.getAllDevicesAsPage(page);
         return resultPage.getContent();
     }
 
+    @RequestMapping(value = "/devices", params = "brand", method = GET)
+    @ResponseBody
+    public List<Device> getDevicesByParams1(@RequestParam("brand") String brand) {
+
+        System.out.println("brand is : "+ brand);
+
+        ArrayList<Device> devicesResult = deviceService.getDeviceByBrand(brand);
+        return devicesResult;
+    }
+
+    @RequestMapping(value = "/devices", params = "model", method = GET)
+    @ResponseBody
+    public List<Device> getDevicesByParams2(@RequestParam("model") String model) {
+
+        System.out.println("model is : "+ model);
+
+        ArrayList<Device> devicesResult = deviceService.getDeviceByModel(model);
+        return devicesResult;
+    }
+
+    @RequestMapping(value = "/devices", params = {"brand","model"}, method = GET)
+    @ResponseBody
+    public List<Device> getDevicesByParams3(@RequestParam("brand") String brand, @RequestParam("model") String model) {
+
+        System.out.println("brand is : "+ brand);
+        System.out.println("model is : "+ model);
+
+        ArrayList<Device> devicesResult = deviceService.getDeviceByBrandModel(brand,model);
+        return devicesResult;
+    }
 
     @PostMapping("/devices")
     private String createDevices(@RequestBody ArrayList<Device> devices) {

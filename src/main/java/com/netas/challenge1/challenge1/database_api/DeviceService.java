@@ -36,30 +36,36 @@ public class DeviceService {
 
                 System.out.println("It can not be recorded, already exists!");
             }
-
         }
-
         return savedDevice;
     }
 
-    public Page<Device> getAllDevicesAsPage(int pageNumber){
+    public Page<Device> getAllDevicesAsPage(int page){
 
-        PageRequest pageable = PageRequest.of(pageNumber - 1, 2);
+        PageRequest pageable = PageRequest.of(page - 1, 5);
         Page<Device> resultPage = deviceDao.findAll(pageable);
 
         return resultPage;
     }
 
+    public ArrayList<Device> getDeviceByBrand(String brandName) {
 
-    public ArrayList<Device> getAllDevices(){
+        ArrayList<Device> deviceResult = deviceDao.getDevicesByBrand(brandName);
 
-        ArrayList<Device> devicesFromDB = new ArrayList<>();
+        return deviceResult;
+    }
 
-        /*corresponding SELECT * FROM statement in spring boot
-        * data is being loading to arraylist
-        * */
-        deviceDao.findAll().forEach(device -> devicesFromDB.add(device));
-        return devicesFromDB;
+    public ArrayList<Device> getDeviceByModel(String modelName) {
 
+        ArrayList<Device> deviceResult = deviceDao.getDevicesByModel(modelName);
+
+        return deviceResult;
+    }
+
+    public ArrayList<Device> getDeviceByBrandModel(String brandName, String modelName) {
+
+        ArrayList<Device> deviceResult = deviceDao.getDevicesByBrandModel(brandName, modelName);
+
+        return deviceResult;
     }
 }

@@ -13,22 +13,6 @@ import java.util.List;
 
 public class ParseJson {
 
-    private void writeJson(){
-        ArrayList<Device> devices = new ArrayList<>();
-        devices.add(new Device("Huawei P20","Huawei", "Android","9.0.1"));
-        devices.add(new Device("Samsung Galaxy","Samsung", "Android","9.1.1"));
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        try{
-            objectMapper.writeValue(new File("C:\\challenge1\\denemejson.json"),devices);
-
-        }catch (Exception e){
-
-            System.out.println("Exception Olustu");
-        }
-    }
-
     public List<Device> readJson(String jsonFile){
 
         List<Device> devices = new ArrayList<>();

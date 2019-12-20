@@ -14,7 +14,5 @@ public class Challenge1Application  {
 		/*ParseJson parseJson = new ParseJson();
 		List<Device> devices = parseJson.readJson("devices.json");*/
 
-
-
 	}
 }
