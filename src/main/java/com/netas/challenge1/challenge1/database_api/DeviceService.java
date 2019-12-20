@@ -6,19 +6,50 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 
 @Service
 public class DeviceService {
 
     @Autowired
-    DeviceDao deviceDao;
+    private DeviceDao deviceDao;
 
-    public void saveDeviceToDB(Device device){
+    public Device saveDevicesToDB(ArrayList<Device> devices){
 
-        deviceDao.save(device);
+        System.out.println("saveDevicesToDB called");
+
+        Device savedDevice = new Device();
+
+        for(Device device : devices){
+
+            String deviceBrand = device.getBrand();
+            String deviceModel = device.getModel();
+            String deviceOsVersion = device.getOsVersion();
+
+            if(deviceDao.countOfRecord(deviceBrand,deviceModel,deviceOsVersion) < 1){
+
+                System.out.println("No other records found, OK");
+
+                savedDevice =  deviceDao.save(device);
+
+            }else{
+
+                System.out.println("It can not be recorded, already exists!");
+            }
+
+        }
+
+        return savedDevice;
     }
+
+    public Page<Device> getAllDevicesAsPage(int pageNumber){
+
+        PageRequest pageable = PageRequest.of(pageNumber - 1, 2);
+        Page<Device> resultPage = deviceDao.findAll(pageable);
+
+        return resultPage;
+    }
+
 
     public ArrayList<Device> getAllDevices(){
 
@@ -31,13 +62,4 @@ public class DeviceService {
         return devicesFromDB;
 
     }
-
-    public Page<Device> getAllDevicesAsPage(int pageNumber){
-
-        PageRequest pageable = PageRequest.of(pageNumber - 1, 2);
-        Page<Device> resultPage = deviceDao.findAll((Pageable) pageable);
-
-        return resultPage;
-    }
-
 }

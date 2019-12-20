@@ -6,13 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class RestAPIController {
 
     @Autowired
-    DeviceService deviceService;
+    private DeviceService deviceService;
+
+    @GetMapping("/dememetext")
+    public String getText() {
+
+        return "Deneme String";
+    }
 
     @GetMapping("/devices")
     public List<Device> findAllPaginated(@RequestParam("pageNumber") int pageNumber) {
@@ -21,10 +28,21 @@ public class RestAPIController {
         return resultPage.getContent();
     }
 
-    @PostMapping("/devices")
-    private long savePerson(@RequestBody Device device) {
 
-        deviceService.saveDeviceToDB(device);
-        return device.getDeviceID();
+    @PostMapping("/devices")
+    private String createDevices(@RequestBody ArrayList<Device> devices) {
+
+        for(Device device : devices){
+
+            System.out.println("Device Model: "+ device.getModel());
+            System.out.println("Device Brand: "+ device.getBrand());
+            System.out.println("Device OS: "+ device.getOs());
+            System.out.println("Device OSVersion: "+ device.getOsVersion());
+        }
+
+        Device savedDevice = deviceService.saveDevicesToDB(devices);
+        System.out.println("DeviceDBID :" + savedDevice.getDatabaseId());
+
+        return "Device DatabaseID : "+savedDevice.getDatabaseId();
     }
 }

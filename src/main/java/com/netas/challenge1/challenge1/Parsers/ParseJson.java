@@ -29,7 +29,7 @@ public class ParseJson {
         }
     }
 
-    public void readJson(String jsonFile){
+    public List<Device> readJson(String jsonFile){
 
         List<Device> devices = new ArrayList<>();
 
@@ -52,5 +52,7 @@ public class ParseJson {
             System.out.println("Brand "+ device.getBrand());
             System.out.println("OS "+ device.getOs());
         }
+
+        return devices;
     }
 }

@@ -1,17 +1,16 @@
 package com.netas.challenge1.challenge1.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
+import javax.persistence.*;
 
 @Entity
-@Table(name="Devices")
+@Table(name = "Devices")
 public class Device {
 
     @Id
-    private long deviceID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long databaseId;
+
     @Column
     private String model;
     @Column
@@ -31,12 +30,12 @@ public class Device {
 
     public Device(){}
 
-    public long getDeviceID() {
-        return deviceID;
+    public long getDatabaseId() {
+        return databaseId;
     }
 
-    public void setDeviceID(long deviceID) {
-        this.deviceID = deviceID;
+    public void setDatabaseId(long databaseId) {
+        this.databaseId = databaseId;
     }
 
     public String getModel() {
